@@ -1,5 +1,6 @@
 import express from "express";
 import env from 'dotenv';
+import masterRouter from "./routes/masterRoute";
 import cors from "cors";
 import db_init from "./entities/db_init";
 
@@ -21,7 +22,7 @@ app.use(cors(corsOptions));
 
 db_init();
 
-// app.use("/api", masterRouter);
+app.use("/api", masterRouter);
 // app.use("/api", employeeRouter)
 
 const port = process.env.PORT || 8001;
