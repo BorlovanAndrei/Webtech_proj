@@ -27,14 +27,21 @@ function fkConfig()
     // Employee.hasMany(Address, {as : Addresses, foreignKey: "EmployeeId"});
     // Address.belongsTo(Employee, { foreignKey: "EmployeeId"})
 
-    EventGroup.hasMany(Event, { foreignKey: 'GroupId'});
+    //relationship 1->n
+    EventGroup.hasMany(Event, {as : "EventGroups", foreignKey: 'GroupId'});
     Event.belongsTo(EventGroup, { foreignKey: 'GroupId'});
 
-    Event.hasMany(Attendance, {foreignKey: 'EventId'});
-    Attendance.belongsTo(Event, {foreignKey: 'EventId'});
+    // //relationship n->n
+    Participant.belongsToMany(Event, {through: "Attendance", as: "Events", foreignKey: "ParticipantId"});
+    Event.belongsToMany(Participant, {through: "Attendance", as: "Participants", foreignKey: "EventId"});
 
-    Participant.hasMany(Attendance, {foreignKey: 'ParticipantId'});
-    Attendance.belongsTo(Participant, {foreignKey: 'ParticipantId'});
+    // Event.hasMany(Attendance, {as : "Event", foreignKey: 'EventId'});
+    // Attendance.belongsTo(Event, {foreignKey: 'EventId'});
+
+    // Participant.hasMany(Attendance, {as : "Participant", foreignKey: 'ParticipantId'});
+    // Attendance.belongsTo(Participant, {foreignKey: 'ParticipantId'});
+
+
 }
 
 function db_init(){

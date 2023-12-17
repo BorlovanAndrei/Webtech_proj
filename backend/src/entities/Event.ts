@@ -1,7 +1,23 @@
 import db from "../dbConfig";
-import  Sequelize  from "sequelize";
+import  Sequelize, { ModelDefined }  from "sequelize";
 
-const Event = db.define("Event", {
+export interface EventAttributes {
+
+    EventId : number,
+    GroupId : number,
+    EventName : string,
+    EventStartTime : Date,
+    EventEndTime : Date,
+    EventStatus : string,
+    EventAccessCode : string
+
+}
+
+export interface EventCreationAttributes extends EventAttributes {
+
+}
+
+const Event : ModelDefined<EventAttributes, EventCreationAttributes> = db.define("Event", {
     EventId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -21,12 +37,18 @@ const Event = db.define("Event", {
 
     EventStartTime: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isDate: true
+        }
     },
 
     EventEndTime: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isDate: true
+        }
     },
 
     EventStatus: {

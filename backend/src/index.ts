@@ -3,6 +3,7 @@ import env from 'dotenv';
 import masterRouter from "./routes/masterRoute";
 import cors from "cors";
 import db_init from "./entities/db_init";
+import eventGroupRoute from "./routes/eventGroupRoute";
 
 env.config();
 
@@ -23,7 +24,7 @@ app.use(cors(corsOptions));
 db_init();
 
 app.use("/api", masterRouter);
-// app.use("/api", employeeRouter)
+app.use("/api", eventGroupRoute)
 
 const port = process.env.PORT || 8001;
 app.listen(port);

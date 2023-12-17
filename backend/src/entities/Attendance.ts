@@ -3,26 +3,33 @@ import  Sequelize  from "sequelize";
 
 const Attendance = db.define("Attendance", {
 
-    AttendanceId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-    },
+    // AttendanceId: {
+    //     type: Sequelize.INTEGER,
+    //     primaryKey: true,
+    //     autoIncrement: true,
+    //     allowNull: false
+    // },
 
     EventId: {
         type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: false,
         allowNull: false
     },
 
     ParticipantId: {
         type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: false,
         allowNull: false
     },
 
-    AttendanceTime: {
+    AttendanceStartTime: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isDate: true
+        }
     }
 })
 

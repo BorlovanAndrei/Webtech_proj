@@ -1,15 +1,17 @@
 import db from "../dbConfig";
 import  Sequelize, { ModelDefined }  from "sequelize";
+import { EventAttributes } from "./Event";
 
 export interface EventGroupAttributes{
     GroupId : number,
-    GroupName: string
+    GroupName: string,
+    Events: EventAttributes[] | null
 }
 
-export interface EventGropuCreationAttributes extends EventGroupAttributes {};
+export interface EventGroupCreationAttributes extends EventGroupAttributes {};
 
 
-const EventGroup : ModelDefined<EventGroupAttributes, EventGropuCreationAttributes> = db.define("EventGroup", {
+const EventGroup : ModelDefined<EventGroupAttributes, EventGroupCreationAttributes> = db.define("EventGroup", {
 
     GroupId: {
         type: Sequelize.INTEGER,
