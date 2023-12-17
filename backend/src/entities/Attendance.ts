@@ -1,7 +1,19 @@
 import db from "../dbConfig";
-import  Sequelize  from "sequelize";
+import  Sequelize, { ModelDefined }  from "sequelize";
 
-const Attendance = db.define("Attendance", {
+export interface AttendanceAttributes {
+
+    EventId : number,
+    ParticipantId : number,
+    AttendanceStartTime : Date | null
+    
+}
+
+export interface AttendanceCreationAttributes extends AttendanceAttributes {
+
+}
+
+const Attendance : ModelDefined<AttendanceAttributes, AttendanceCreationAttributes> = db.define("Attendance", {
 
     // AttendanceId: {
     //     type: Sequelize.INTEGER,
@@ -26,7 +38,7 @@ const Attendance = db.define("Attendance", {
 
     AttendanceStartTime: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
         validate: {
             isDate: true
         }

@@ -1,7 +1,18 @@
 import db from "../dbConfig";
-import  Sequelize  from "sequelize";
+import  Sequelize, { ModelDefined }  from "sequelize";
 
-const Participant = db.define("Participant", {
+export interface ParticipantAttributes {
+
+    ParticipantId : number,
+    ParticipantName : string,
+    ParticipantEmail : string
+}
+
+export interface ParticipantCreationAttributes extends ParticipantAttributes {
+
+}
+
+const Participant : ModelDefined<ParticipantAttributes, ParticipantCreationAttributes> = db.define("Participant", {
 
     ParticipantId: {
         type: Sequelize.INTEGER,

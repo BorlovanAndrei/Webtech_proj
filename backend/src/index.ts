@@ -4,6 +4,7 @@ import masterRouter from "./routes/masterRoute";
 import cors from "cors";
 import db_init from "./entities/db_init";
 import eventGroupRoute from "./routes/eventGroupRoute";
+import attendanceRoute from "./routes/attendanceRoute";
 
 env.config();
 
@@ -24,7 +25,8 @@ app.use(cors(corsOptions));
 db_init();
 
 app.use("/api", masterRouter);
-app.use("/api", eventGroupRoute)
+app.use("/api", eventGroupRoute);
+app.use("/api", attendanceRoute);
 
 const port = process.env.PORT || 8001;
 app.listen(port);
