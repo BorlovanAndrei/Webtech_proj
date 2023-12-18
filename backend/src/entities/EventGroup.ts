@@ -5,7 +5,7 @@ import { EventAttributes } from "./Event";
 export interface EventGroupAttributes{
     GroupId : number,
     GroupName: string,
-    Events: EventAttributes[] | null
+    Events: EventAttributes[] 
 }
 
 export interface EventGroupCreationAttributes extends EventGroupAttributes {};

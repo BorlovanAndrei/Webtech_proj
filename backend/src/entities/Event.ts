@@ -53,7 +53,11 @@ const Event : ModelDefined<EventAttributes, EventCreationAttributes> = db.define
 
     EventStatus: {
         type: Sequelize.STRING,
-        allowNull: false
+        values: ['CLOSED', 'OPENED'],
+        allowNull: false,
+        validate: {
+            isIn: [['CLOSED', 'OPENED']],
+        }
     },
 
     EventAccessCode: {

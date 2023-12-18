@@ -1,6 +1,6 @@
 import express from 'express';
 import eventGroupFilterDto from '../dataAccess/models/EventGroupFilterDto';
-import { createEventGroup, deleteEventGroups, getEventGroup, getEventGroupById, getFilteredEventGroups } from '../dataAccess/EventGroupDA';
+import { createEventGroup, deleteEventGroups, getEventGroup, getEventGroupById, getFilteredEventGroups, updateEventGroup } from '../dataAccess/EventGroupDA';
 
 
 
@@ -25,9 +25,9 @@ eventGroupRoute.route('/eventGroup/:id').delete( async (req, res) => {
   return res.json(await deleteEventGroups(id));
 })
 
-// eventGroupRoute.route('/employee/:id').put( async (req, res) => {
-//   let id = parseInt(req.params.id) 
-//   return res.json(await updateEmployee(req.body, id));
-// })
+eventGroupRoute.route('/eventGrouping/:id').put( async (req, res) => {
+  let id = parseInt(req.params.id) 
+  return res.json(await updateEventGroup(req.body, id));
+})
 
 export default eventGroupRoute;

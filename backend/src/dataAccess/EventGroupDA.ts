@@ -1,3 +1,4 @@
+import db from "../dbConfig";
 import Event from "../entities/Event";
 import EventGroup, { EventGroupCreationAttributes } from "../entities/EventGroup";
 import eventGroupFilterDto from "./models/EventGroupFilterDto";
@@ -26,7 +27,7 @@ async function getFilteredEventGroups(eventGroupFilter: eventGroupFilterDto) {
   
     let whereClause: any = {};
     if (eventGroupFilter.eventGroupName)
-      whereClause.EmployeeName = { [Like]: `%${eventGroupFilter.eventGroupName}%` };
+      whereClause.GroupName = { [Like]: `%${eventGroupFilter.eventGroupName}%` };
   
   
     return await EventGroup.findAndCountAll(
@@ -47,7 +48,59 @@ async function getFilteredEventGroups(eventGroupFilter: eventGroupFilterDto) {
       return;
     }
     return await deleteElem.destroy();
-  }  
+  } 
+  
+  async function updateEventGroup(eventGroup: EventGroupCreationAttributes, id: number) {
+  const findEventGroup = await getEventGroupById(eventGroup.GroupId);
+
+  if (!findEventGroup) {
+    console.log("This event group does not exist");
+    return;
+  }
+
+  const t = await db.transaction()
+  try {
+    await findEventGroup.update(eventGroup);
+
+    // deleted
+    const existEvent = await Event.findAll({
+      where: {
+        GroupId: eventGroup.GroupId,
+      },
+    });
+
+    if (existEvent.length > 0) {
+      let eventIds =  existEvent.map(a => a.dataValues.EventId);
+      let eventIdsDeleted = eventIds.filter(id => !eventGroup.Events.find(add => add.EventId === id)?.EventId)
+      if (eventIdsDeleted.length > 0)
+        await Event.destroy({
+          where: {
+            EventId: eventIdsDeleted,
+          },
+        })
+    }
+
+    // inserted 
+    const insertedA = eventGroup.Events.filter(a => a.EventId === 0)
+    if (insertedA.length > 0)
+      await Event.bulkCreate(insertedA)
+
+    // updated
+    const updatedA = eventGroup.Events.filter(a => a.EventId !== 0);
+    if (updatedA.length > 0) {
+      for (let item of updatedA) {
+        const findA = await Event.findByPk(item.EventId);
+        await findA?.update(item);
+      }
+    }
+
+    await t.commit();
+
+  } catch (e) {
+    await t.rollback();
+    throw e;
+  }
+}
 
 
 
@@ -57,5 +110,6 @@ export {
     getEventGroup,
     createEventGroup,
     getFilteredEventGroups,
-    deleteEventGroups
+    deleteEventGroups,
+    updateEventGroup
 }
