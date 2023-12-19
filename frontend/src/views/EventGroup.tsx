@@ -49,12 +49,63 @@ export default function EventGroupList(){
         navigate("/NewEventGroup");
     }
 
-    function handleChangePage() {
+    // function handleChangePage() {
 
+    // }
+
+    const handleChangePage = async (
+      event: React.MouseEvent<HTMLButtonElement> | null,
+      newPage: number,
+    ) => {
+      setPage(newPage);
+      let newFilter = _.cloneDeep(eventGroupFilter);
+      newFilter.skip = newPage;
+      await filter(newFilter);
+      setEventGroupFilter(newFilter);
+    };
+
+    const handleChangeRowsPerPage = async (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+      let take = parseInt(event.target.value, 10)
+      setRowsPerPage(take);
+      setPage(0);
+  
+      let newFilter = _.cloneDeep(eventGroupFilter);
+      newFilter.take = take;
+      newFilter.skip = 0;
+      await filter(newFilter);
+      setEventGroupFilter(newFilter);
+    };
+
+
+    // function handleChangeRowsPerPage() {
+
+    // }
+
+    async function filter(filter: EventGroupFilterDto) {
+      let filterEventGroup = await getEventGroup(filter);
+      setEventGroup(filterEventGroup);
     }
 
-    function handleChangeRowsPerPage() {
+    function onChangeFilter(e: ChangeEvent<HTMLInputElement>) {
+      e.preventDefault();
+      setEventGroupFilter({ ...eventGroupFilter, [e.target.name]: e.target.value });
+    }
 
+    async function filterEventGroup() {
+      setPage(0)
+      let egFilter = _.cloneDeep(eventGroupFilter);
+      egFilter.skip = 0
+      filter(egFilter)
+    }
+  
+    async function clearFilters() {
+      let newFilter = { eventGroupName: "", skip: 0, take: 5 };
+      setPage(0)
+      setRowsPerPage(5);
+      setEventGroupFilter(newFilter);
+      filter(newFilter)
     }
 
     return(
@@ -76,6 +127,9 @@ export default function EventGroupList(){
           <TextField
               id="input-with-icon-textfield"
               label="Search by group name"
+              value={eventGroupFilter.eventGroupName}
+              onChange={onChangeFilter}
+              name="eventGroupName"
               InputProps={{
               startAdornment: (
               <InputAdornment position="start">
@@ -92,13 +146,13 @@ export default function EventGroupList(){
           </div>
   
           <div>
-            {/* <Button style={{ marginRight: '8px' }} startIcon={<FilterAltIcon />} variant="contained" onClick={filterEmployee}>
+            <Button color="warning" style={{ marginRight: '8px' }} startIcon={<FilterAltIcon />} variant="contained" onClick={filterEventGroup}>
               Filter
             </Button>
   
-            <Button startIcon={<ClearIcon />} variant="contained" onClick={clearFilters}>
+            <Button color="warning" startIcon={<ClearIcon />} variant="contained" onClick={clearFilters}>
               Clear Filters
-            </Button> */}
+            </Button>
           </div>
   
         </Box>
