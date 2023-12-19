@@ -1,4 +1,4 @@
-export interface EventAttributes {
+export interface Event {
 
     EventId : number,
     GroupId : number,

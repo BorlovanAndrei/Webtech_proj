@@ -14,18 +14,32 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../routes';
+import { Bolt } from '@mui/icons-material';
+import { format } from 'path';
+import logo from '../logo.svg';
+import icon from '../icon.png'
+
 
 const pages = routes.filter(r => r.name);
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const navigate = useNavigate(); 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
 
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
   const handleCloseNavMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
@@ -35,11 +49,12 @@ function ResponsiveAppBar() {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: '#EAD196' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+        
           <Typography
+          
             variant="h6"
             noWrap
             component="a"
@@ -50,14 +65,18 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: '#7D0A0A',
               textDecoration: 'none',
             }}
+            
           >
-            AttendifyHub
+            <img src={icon} alt="Icon" style={{ width: '100px', height: '150px' }} />
+            
+            
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          
+              
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none',  } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -66,7 +85,7 @@ function ResponsiveAppBar() {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: '#7D0A0A' }}/>
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -94,7 +113,7 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          
           <Typography
             variant="h5"
             noWrap
@@ -107,18 +126,20 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: '#7D0A0A',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            
+            AttendifyHub
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, index) => (
               <Button
+                startIcon = { <page.icon/> }
                 key={index}
                 onClick={() => navigation(page.path)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: '#7D0A0A', display: 'block'}}
               >
                 {page.name}
               </Button>

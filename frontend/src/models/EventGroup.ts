@@ -1,7 +1,7 @@
-import { EventAttributes } from "./Events";
+import { Event} from "./Events";
 
-export interface EventGroupAttributes{
+export interface EventGroup{
     GroupId : number,
     GroupName: string,
-    Events: EventAttributes[] 
+    Events: Event[] 
 }

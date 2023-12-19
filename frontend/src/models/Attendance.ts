@@ -1,4 +1,4 @@
-export interface AttendanceAttributes {
+export interface Attendance {
 
     EventId : number,
     ParticipantId : number,
