@@ -1,15 +1,20 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledTextFieldProps, InputAdornment, MenuItem, OutlinedTextFieldProps, Popover, Popper, StandardTextFieldProps, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, TextFieldVariants } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { EventGroup } from "../models/EventGroup";
-import { ChangeEvent, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, SetStateAction, SyntheticEvent, useEffect, useState } from "react";
 import { Event } from "../models/Events";
 import { useNavigate, useParams } from "react-router-dom";
 import { get } from "lodash";
 import { post, put } from "../api/Calls";
 import _ from "lodash";
 import SaveIcon from '@mui/icons-material/Save';
+import SearchIcon from '@mui/icons-material/Search';
+import DatePicker from "@mui/lab/DatePicker";
+import { JSX } from "react/jsx-runtime";
+
+
 
 export default function EventGroupEdit() {
 
@@ -73,7 +78,7 @@ export default function EventGroupEdit() {
             EventName: "",
             EventStartTime: new Date(),
             EventEndTime: new Date(),
-            EventStatus: "",
+            EventStatus: "CLOSED",
             EventAccessCode: "",
             EventId: id ? Number(id) : 0
         })
@@ -117,21 +122,32 @@ export default function EventGroupEdit() {
         setEventIndex(index);
     }
 
+
     return (
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                '& .MuiTextField-root': { m: 1, width: '25ch', marginTop: 8, },
             }}
             noValidate
         >
             <div>
                 <TextField
-                    label="GroupName"
+                    label="Enter the group name"
                     size="small"
                     value={EventGroup.GroupName}
                     onChange={onChangeEventGroup}
                     name="GroupName"
+                    variant="standard"
+                    color="warning"
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        ),
+
+                    }}
                 />
             </div>
             {/* <div>
@@ -174,17 +190,18 @@ export default function EventGroupEdit() {
             <div>
                 <Button
                     startIcon={<SaveIcon />}
-                    variant="contained"
-                    color="success"
-                    style={{ marginRight: '8px' }}
+                    variant="outlined"
+                    color="warning"
+                    style={{ marginRight: '8px', marginTop: '25px', marginBottom: '25px' }}
                     onClick={saveEventGroup}
                 >
                     Save
                 </Button>
                 <Button
                     startIcon={<CancelIcon />}
-                    variant="contained"
-                    color="error"
+                    style={{ marginRight: '8px', marginTop: '25px', marginBottom: '25px' }}
+                    variant="outlined"
+                    color="warning"
                     onClick={() => navigation(-1)}
                 >
                     Cancel
@@ -192,19 +209,19 @@ export default function EventGroupEdit() {
             </div>
 
             <div>
-                <h1>Events</h1>
+
 
                 <div>
                     <Button
                         startIcon={<AddCircleIcon />}
                         variant="contained"
+                        color="warning"
                         onClick={handleClickOpen}
                     >
                         Add new event
                     </Button>
 
                     <Dialog open={open} onClose={handleClose}>
-                        <DialogTitle>Event</DialogTitle>
                         <DialogContent>
                             <Box
                                 component="form"
@@ -214,34 +231,64 @@ export default function EventGroupEdit() {
                                 noValidate
                             >
                                 <TextField
-                                    label="EventName"
+                                    label="Enter event name"
                                     value={Event.EventName}
                                     onChange={onChangeEvent}
+                                    variant="standard"
+                                    color="warning"
                                     name="EventName"
                                 />
                                 <TextField
-                                    label="EventStartTime"
+                                    label="Enter event start time"
                                     value={Event.EventStartTime}
                                     onChange={onChangeEvent}
                                     name="EventStartTime"
+                                    color="warning"
+                                    variant="standard"
                                 />
                                 <TextField
-                                    label="EventEndTime"
+                                    label="Enter event end time"
                                     value={Event.EventEndTime}
                                     onChange={onChangeEvent}
                                     name="EventEndTime"
+                                    variant="standard"
+                                    color="warning"
                                 />
+
+
+
+
+                                {/* 
                                 <TextField
-                                    label="EventStatus"
+                                    label="Enter event status"
                                     value={Event.EventStatus}
                                     onChange={onChangeEvent}
                                     name="EventStatus"
-                                />
+                                    variant="standard"
+                                    color="warning"
+                                /> */}
+
                                 <TextField
-                                    label="EventAccessCode"
+                                    label="Enter event status"
+                                    value={Event.EventStatus}
+                                    onChange={onChangeEvent}
+                                    name="EventStatus"
+                                    variant="standard"
+                                    color="warning"
+                                    select
+                                >
+                                    <MenuItem value="OPENED">Opened</MenuItem>
+                                    <MenuItem value="CLOSED">Closed</MenuItem>
+                                </TextField>
+
+
+                                <TextField
+                                    label="Enter event access code"
                                     value={Event.EventAccessCode}
                                     onChange={onChangeEvent}
                                     name="EventAccessCode"
+                                    variant="standard"
+                                    color="warning"
                                 />
                             </Box>
                         </DialogContent>
@@ -273,7 +320,7 @@ export default function EventGroupEdit() {
                                     <TableCell><Button startIcon={<EditIcon />} color="success" onClick={() => editAddress(index)} /></TableCell>
                                     <TableCell><Button startIcon={<CancelIcon />} color="error" onClick={() => deleteAddress(index)} /></TableCell>
                                 </TableRow>
-                            ))} */} 
+                            ))} */}
 
                             {EventGroup.Events.map((event: Event, index: number) => (
                                 <TableRow key={index}>
