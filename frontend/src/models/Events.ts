@@ -1,4 +1,8 @@
+import { ParticipantAttributes } from "./Participants"
+
 export interface Event {
+ 
+
 
     EventId : number,
     GroupId : number,
@@ -6,6 +10,6 @@ export interface Event {
     EventStartTime : Date,
     EventEndTime : Date,
     EventStatus : string,
-    EventAccessCode : string
-
+    EventAccessCode : string,
+   // Participants: ParticipantAttributes[]
 }

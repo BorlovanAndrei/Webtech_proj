@@ -1,11 +1,15 @@
 import db from "../dbConfig";
-import Event from "../entities/Event";
+import Event, { EventCreationAttributes } from "../entities/Event";
 import EventGroup, { EventGroupCreationAttributes } from "../entities/EventGroup";
 import eventGroupFilterDto from "./models/EventGroupFilterDto";
 import { Like } from "./operators";
 
 async function getEventGroup() {
     return await EventGroup.findAll({include: ["EventGroups"]})
+}
+
+async function getEvent() {
+    return await Event.findAll();
 }
 
 async function getEventGroupById(id : number) {
@@ -16,6 +20,18 @@ async function createEventGroup(event : EventGroupCreationAttributes) {
     return await EventGroup.create(event, {include: [{model: Event, as : "EventGroups"}]});
     
 }
+
+
+async function getEventByAccessCode(accessCode: number) {
+  try {
+    // Replace this query with the actual query for your database
+    return await Event.findOne({ where: { EventAccessCode : accessCode } });
+
+  } catch (error) {
+    console.error('Error in getEventByAccessCode:', error);
+    throw new Error('Error fetching event by access code');
+  }
+};
 
 async function getFilteredEventGroups(eventGroupFilter: eventGroupFilterDto) {
 
@@ -111,5 +127,7 @@ export {
     createEventGroup,
     getFilteredEventGroups,
     deleteEventGroups,
-    updateEventGroup
+    updateEventGroup,
+    getEventByAccessCode,
+    getEvent
 }

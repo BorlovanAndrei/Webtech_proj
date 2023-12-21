@@ -1,5 +1,6 @@
 import db from "../dbConfig";
 import  Sequelize, { ModelDefined }  from "sequelize";
+import { ParticipantAttributes } from "./Participant";
 
 export interface EventAttributes {
 
@@ -10,7 +11,7 @@ export interface EventAttributes {
     EventEndTime : Date,
     EventStatus : string,
     EventAccessCode : string
-
+    //Participants: ParticipantAttributes[]
 }
 
 export interface EventCreationAttributes extends EventAttributes {

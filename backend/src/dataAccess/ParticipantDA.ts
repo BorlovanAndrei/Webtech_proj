@@ -13,6 +13,7 @@ async function createParticipant(participant : ParticipantCreationAttributes) {
 async function associateEventParticipant(eventParticipant : AttendanceCreationAttributes){
     return await Attendance.create(eventParticipant);
   }
+
   
 
 async function getParticipantsAtEvent(eventId: number) {
