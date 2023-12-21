@@ -73,7 +73,11 @@ export default function JoinEvent() {
   //     get("/eventGroup", id).then((r: SetStateAction<EventGroup>) => setEventGroup(r));
   // }, [])
 
-
+  function onChangeAccessCode(e: ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+    setEvent({ ...Event, EventAccessCode: e.target.value });
+  }
+  
 
   function onChangeParticipant(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -153,12 +157,90 @@ export default function JoinEvent() {
     setAttendance({ ...Attendance, [e.target.name]: e.target.value });
   }
 
+  // async function joinAttendance() {
+  //   // if (!id) {
+  //   //   await post("/join-event", { EventAccessCode: Event.EventAccessCode, ParticipantId: Participant.ParticipantId, EventId: Event.EventId });
+  //   // }
+  //   // navigation("/JoinEvent");
+
+  //   // if (!id) {
+  //   //   try {
+  //   //     // Send a POST request to join the event and record attendance
+  //   //     await post("/join-event", {
+  //   //       EventAccessCode: Event.EventAccessCode,
+  //   //       ParticipantId: Participant.ParticipantId,
+  //   //       EventId: Event.EventId,
+  //   //       AttendanceStartTime: new Date().toISOString() // Assuming AttendanceStartTime should be in a specific format like ISO string
+  //   //     });
+  
+  //   //     // After successful joining and attendance record, navigate to a specific page
+  //   //     navigation("/JoinEvent"); // You might want to navigate to a different route or handle navigation differently
+  //   //   } catch (error) {
+  //   //     console.error('Error joining event:', error);
+  //   //     // Handle error scenarios (e.g., display an error message to the user)
+  //   //   }
+  //   // }
+  //   //navigation("/JoinEvent");
+
+
+
+
+  //   try {
+  //     // Prepare the data to be sent in the POST request
+  //     const requestData = {
+  //       EventAccessCode: Event.EventAccessCode, // EventAccessCode from your state
+  //       ParticipantId: Participant.ParticipantId, // ParticipantId from your state
+  //       EventId: Event.EventId, // EventId from your state
+  //       AttendanceStartTime: new Date().toISOString(), // Current time as AttendanceStartTime
+  //     };
+  
+  //     // Make the POST request to the backend endpoint
+  //     const response = await post("/join-event", requestData);
+  
+  //     // Check if the request was successful
+  //     if (response && response.data && response.data.message) {
+  //       // Participant successfully joined the event
+  //       navigation("/JoinEvent");
+  //     } else {
+  //       // Handle other scenarios or show an error message
+  //       console.error("Error joining event:", response.data.error);
+  //       // Handle error scenarios (e.g., display an error message to the user)
+  //     }
+  //   } catch (error) {
+  //     console.error("Error joining event:", error);
+  //     // Handle error scenarios (e.g., display an error message to the user)
+  //   }
+
+  // }
+
   async function joinAttendance() {
-    if (!id) {
-      await post("/join-event", { EventAccessCode: Event.EventAccessCode, ParticipantId: Participant.ParticipantId, EventId: Event.EventId });
+    try {
+      // Prepare the data to be sent in the POST request
+      const requestData = {
+        accessCode: Event.EventAccessCode, // Update to match backend variable names
+        participantId: Participant.ParticipantId, // Update to match backend variable names
+        eventId: Event.EventId, // Update to match backend variable names
+        AttendanceStartTime: new Date().toISOString(), // Assuming AttendanceStartTime should be in a specific format like ISO string
+      };
+  
+      // Make the POST request to the backend endpoint
+      const response = await post("/join-event", requestData);
+  
+      // Check if the request was successful
+      if (response && response.data && response.data.message) {
+        // Participant successfully joined the event
+        navigation("/JoinEvent");
+      } else {
+        // Handle other scenarios or show an error message
+        console.error("Error joining event:", response.data.error);
+        // Handle error scenarios (e.g., display an error message to the user)
+      }
+    } catch (error) {
+      console.error("Error joining event:", error);
+      // Handle error scenarios (e.g., display an error message to the user)
     }
-    navigation("/JoinEvent");
   }
+    
 
 
   return (
@@ -210,7 +292,7 @@ export default function JoinEvent() {
             size="small"
             value={Event.EventId}
             onChange={onChangeEvent}
-            name="ParticipantName"
+            name="EventId"
             variant="standard"
             color="warning"
             InputProps={{
@@ -222,8 +304,8 @@ export default function JoinEvent() {
             label="Event name"
             size="small"
             value={Event.EventName}
-            //onChange={onChangeParticipant}
-            name="ParticipantEmail"
+            onChange={onChangeEvent}
+            name="EventName"
             variant="standard"
             color="warning"
             InputProps={{
@@ -276,7 +358,7 @@ export default function JoinEvent() {
           label="Enter AccessCode"
           size="small"
           value={Event.EventAccessCode}
-          //onChange={setAccessCode}
+          onChange={onChangeAccessCode}
           variant="standard"
           color="warning"
           InputProps={{

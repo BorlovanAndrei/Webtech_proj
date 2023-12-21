@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { get, remove } from "../api/Calls";
+import { get, put, remove } from "../api/Calls";
 import { EventGroup } from "../models/EventGroup";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -108,6 +108,17 @@ export default function EventGroupList(){
       filter(newFilter)
     }
 
+  function updateEventGroup(GroupId: number) {
+    //throw new Error("Function not implemented.");
+    //navigate(`/EditEventGroup/${GroupId}`)
+  }
+
+  async function deleteEventGroup(GroupId: number){
+    await remove("/eventGroup", GroupId);
+    let ret = await getEventGroup(eventGroupFilter);
+    setEventGroup(ret);
+  }
+
     return(
         <div>
 
@@ -181,13 +192,13 @@ export default function EventGroupList(){
                   <TableCell>
                     <Button
                       variant="outlined" startIcon={<BorderColorIcon />} color="warning"
-                      //onClick={() => editEmployee(row.EmployeeId)}
+                     // onClick={() => updateEventGroup(row.GroupId)}
                     >Edit</Button>
                   </TableCell>
                   <TableCell>
                     <Button 
                       variant="outlined" startIcon={<DeleteIcon />} color="warning" 
-                      //onClick={() => deleteEmployee(row.EmployeeId)}
+                      onClick={() => deleteEventGroup(row.GroupId)}
                     >Delete</Button>
                   </TableCell>
                 </TableRow>
