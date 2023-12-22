@@ -41,13 +41,35 @@ export default function EventGroupEdit() {
     const [isNewEvent, setIsNewEvent] = useState<boolean>(true);
     const [eventIndex, setEventIndex] = useState<number>(0);
 
+
     useEffect(() => {
         if (!id)
             return;
         //TREBUIE NULL??oup>)
-        get("/eventGroup", id).then((r: SetStateAction<EventGroup>) => setEventGroup(r));
+        get("/eventGroup",id).then((r: SetStateAction<EventGroup>) => setEventGroup(r));
+        
     }, [])
 
+    // useEffect(() => {
+    //     if (!id) return;
+      
+    //     fetch(`/eventGroup/${id}`)
+    //       .then((response) => {
+    //         if (!response.ok) {
+    //           throw new Error(`Network response was not ok (${response.status} ${response.statusText})`);
+    //         }
+    //         return response.json();
+    //       })
+    //       .then((data) => {
+    //         // Assuming the response data matches the EventGroup type
+    //         setEventGroup(data);
+    //       })
+    //       .catch((error) => {
+    //         console.error('Error fetching data:', error);
+    //         // Handle the error or set a default state for EventGroup
+    //         // setEventGroup(DEFAULT_EVENT_GROUP); // Replace with appropriate default state
+    //       });
+    //   }, [id]);
 
 
     function onChangeEventGroup(e: ChangeEvent<HTMLInputElement>) {

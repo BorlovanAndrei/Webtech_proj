@@ -63,6 +63,13 @@ export const routes = Object.freeze([
         name: null,
         icon: EditCalendarIcon
     },
+    {
+        path: "/EditEventGroup",
+        component: EventGroupEdit,
+        name: null,
+        icon: EditCalendarIcon
+
+    }
 
     
 ]);

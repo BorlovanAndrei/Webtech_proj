@@ -108,9 +108,9 @@ export default function EventGroupList(){
       filter(newFilter)
     }
 
-  function updateEventGroup(GroupId: number) {
+  function editEventGroup(GroupId: number) {
     //throw new Error("Function not implemented.");
-    //navigate(`/EditEventGroup/${GroupId}`)
+    navigate(`/EditEventGroup`);
   }
 
   async function deleteEventGroup(GroupId: number){
@@ -192,7 +192,7 @@ export default function EventGroupList(){
                   <TableCell>
                     <Button
                       variant="outlined" startIcon={<BorderColorIcon />} color="warning"
-                     // onClick={() => updateEventGroup(row.GroupId)}
+                      onClick={() => editEventGroup(row.GroupId)}
                     >Edit</Button>
                   </TableCell>
                   <TableCell>

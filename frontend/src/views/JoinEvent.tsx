@@ -8,8 +8,8 @@ import { post, put } from "../api/Calls";
 import { ParticipantAttributes } from "../models/Participants";
 import { Attendance } from "../models/Attendance";
 import SaveIcon from '@mui/icons-material/Save';
-
-
+ //import QRCode from 'qrcode';
+import QRCode from 'qrcode.react';
 
 export default function JoinEvent() {
 
@@ -120,6 +120,41 @@ export default function JoinEvent() {
   
   }
 
+  const [qrCodeData, setQRCodeData] = useState('');
+
+  function generateQRCodeData(eventId: number, accessCode: string) {
+    return JSON.stringify({ eventId, accessCode });
+  }
+
+  function handleQRCodeScan(scannedData: string) {
+    try {
+      const { eventId } = JSON.parse(scannedData);
+  
+      // Fetch the access code associated with the scanned eventId from your database
+      // Use this access code as needed in your application
+  
+      // For instance, make an API call to retrieve the access code
+      axios.get(`/access-code/${eventId}`).then((response) => {
+        const accessCode = response.data.accessCode;
+  
+        // Use the obtained access code in your application logic
+        // For example:
+        console.log(`Access code for Event ID ${eventId}: ${accessCode}`);
+      });
+    } catch (error) {
+      console.error('Error parsing scanned data:', error);
+      // Handle error scenarios
+    }
+  }
+
+
+
+  function onQRCodeScanned(scannedData: string) {
+    handleQRCodeScan(scannedData);
+  }
+
+
+
 
 
   return (
@@ -229,8 +264,19 @@ export default function JoinEvent() {
             startAdornment: <InputAdornment position="start"></InputAdornment>,
           }}
           style={{ marginRight: '8px', marginTop: '25px' }}
+          
+        />
+        
+      </div>
+
+      <div>
+      <QRCode value={generateQRCodeData(Event.EventId, Event.EventAccessCode)}
+        //onChange={onQRCodeScanned} 
         />
       </div>
+        
+      
+
       <div>
       <Button
           startIcon={<SaveIcon />}
