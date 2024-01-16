@@ -94,7 +94,7 @@ export default function SeeParticipants() {
     const handleExportExcel = () => {
         const excelData = generateExcelData(Attendance.rows);
         const excelFileName = "participants.xlsx";
-        exportExcel(excelData, excelFileName);
+        //exportExcel(excelData, excelFileName);
     };
 
     const generateCSVData = (participants: Attendance[]) => {
@@ -125,19 +125,22 @@ export default function SeeParticipants() {
         saveAs(csvBlob, fileName);
     };
 
-    const exportExcel = (data: (string | number | null)[][], fileName: string) => {
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+    // const exportExcel = (data: (string | number | null)[][], fileName: string) => {
+    //     const ws = XLSX.utils.aoa_to_sheet(data);
+    //     const wb = XLSX.utils.book_new();
+    //     XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
 
-        // Specify mimeType directly in the options
-        const options: XLSX.WritingOptions & { mimeType: string } = { bookType: 'xlsx', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' };
+    //     // Specify mimeType directly in the options
+    //     const options: XLSX.WritingOptions & { mimeType: string } = { bookType: 'xlsx', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' };
 
-        // Use a type assertion for the entire options object
-        const excelBlob = XLSX.write(wb, options as any);
-        saveAs(new Blob([excelBlob], { type: options.mimeType }), fileName);
-    };
+    //     // Use a type assertion for the entire options object
+    //     const excelBlob = XLSX.write(wb, options as any);
+    //     saveAs(new Blob([excelBlob], { type: options.mimeType }), fileName);
+    // };
 
+    
+    
+    
 
     return (
         <div>
@@ -197,9 +200,9 @@ export default function SeeParticipants() {
                     <Button style={{ marginRight: '8px', marginTop: '15px' }}variant="contained" color="success" onClick={handleExportCSV}>
                         Export CSV
                     </Button>
-                    <Button style={{ marginTop: '15px' }} variant="contained" color="success" onClick={handleExportExcel}>
+                    {/* <Button style={{ marginTop: '15px' }} variant="contained" color="success" onClick={handleExportExcel}>
                         Export Excel
-                    </Button>
+                    </Button> */}
                 </div>
 
             </Box>

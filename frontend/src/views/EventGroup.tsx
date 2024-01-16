@@ -176,7 +176,7 @@ export default function EventGroupList(){
               <TableRow>
               <TableCell>Group Id</TableCell>
                 <TableCell>Group name</TableCell>
-                <TableCell>Edit</TableCell>
+                {/* <TableCell>Edit</TableCell> */}
                 <TableCell>Delete</TableCell>
               </TableRow>
             </TableHead>
@@ -189,12 +189,12 @@ export default function EventGroupList(){
                   <TableCell align="left">
                     {row.GroupName}
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Button
                       variant="outlined" startIcon={<BorderColorIcon />} color="warning"
                       onClick={() => editEventGroup(row.GroupId)}
                     >Edit</Button>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Button 
                       variant="outlined" startIcon={<DeleteIcon />} color="warning" 
